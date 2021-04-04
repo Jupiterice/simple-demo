@@ -5,14 +5,14 @@
       class="page-progress"
       slot="title"
       color="#7bccd6"
-      :percentage="(1/8*100)"
+      :percentage="progressPercent"
       :show-pivot="false"
       stroke-width="8"
       />
       <div
         slot="right"
       >
-        1/8
+        {{active+1}}/{{totalPage}}
       </div>
     
     <div class="content">
@@ -68,59 +68,23 @@
       'vanTab': Tab,
       'vanProgress': Progress,
     },
-    mounted() {
-      console.log(this.$refs.vanTabs);
-    },
     data() {
       return {
-        url: null,
-        currentRate: 0,
-        color: '#043365',
-        rate: 9,
-        time: 30 * 1000,
-        showCountDown: false,
-        chapter2: false,
-
         tabList: [],
         active: 0,
-        // actImg,
-        resultImg: '',
-
+        totalPage: 8,
       };
     },
     computed: {
-      text() {
-        return '30';
+      progressPercent() {
+        return (this.active + 1) / this.totalPage * 100;
       },
     },
     methods: {
-      pageCreated() {
-        this.getData();
-        setTimeout(() => {
-          this.color = '#ccc';
-          this.chapter2 = true;
-        }, 5000);
-      },
-      onClickCard(item) {
-        console.log(item);
-        this.$location.push('/main/');
-      },
       next() {
         this.active += 1;
-        // this.showCountDown = true;
       },
       getData() {
-        this.tabList = [
-          { text: 11 },
-          { text: 21 },
-        ];
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({ a: 1 });
-          }, 0);
-        });
-
-
         // this.$api.card.getData().then(res => {
         //   console.log(res);
         // }).catch(() => {
